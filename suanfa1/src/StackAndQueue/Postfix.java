@@ -12,6 +12,32 @@ public class Postfix {
         String str = s.nextLine();
         String R = inverse_L(str);
         System.out.println(R);
+        int value = getValue(R);
+        System.out.println(value);
+    }
+
+    //求后缀表达式的值
+    public static int getValue(String s){
+        Stack stack = new Stack(s.length());
+        char c ='1';
+        String s_v = "";
+        int v  = 0;
+        int v1 = 0;
+        int v2 = 0;
+        for (int i=0;i<s.length();i++){
+            c = s.charAt(i);
+            if(c>='1'&&c<='9'){
+                s_v = c+"";
+                stack.push(Integer.parseInt(s_v));
+            }else {
+                v1 = stack.pop();
+                v2 = stack.pop();
+
+                v = calculate(v2,v1,c);
+                stack.push(v);
+            }
+        }
+        return stack.pop();
     }
 
     //算术式转换为后缀表达式
@@ -103,4 +129,14 @@ public class Postfix {
         return value;
     }
 
+    public static int calculate(int i,int j,int o){
+        int value = 0;
+        switch (o){
+            case '+':value=i+j;break;
+            case '-':value=i-j;break;
+            case '*':value=i*j;break;
+            case '/':value=i/j;break;
+        }
+        return value;
+    }
 }
